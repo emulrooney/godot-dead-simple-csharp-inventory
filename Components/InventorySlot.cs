@@ -1,20 +1,31 @@
 using Godot;
 
+/// <summary>
+/// A single slot in an <see cref="InventoryContainer"/>. This handles most of the logic related to handling a click,
+/// emitting signals to be consumed by the parent container. Each slot should either have zero children *or* a single
+/// <see cref="InventorySlotItem"/>.
+/// </summary>
 [GlobalClass]
 public partial class InventorySlot : Panel
 {
 	[Signal] public delegate void BecameEmptyEventHandler();
 	[Signal] public delegate void BecamePopulatedEventHandler(Variant content);
 
+	/// <summary>
+	/// Modulate the preview image to this colour.
+	/// </summary>
 	[Export] private Color colorWhenMoving = new(Colors.White, 0.66f);
 
+	/// <summary>
+	/// If null, slot is empty.
+	/// </summary>
 	public InventorySlotItem Content { get; private set; }
 	
 	public override void _Ready()
 	{
-		UpdateContent();
+		CheckAndUpdateContent();
 	}
-
+	
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
 		if (Content == null) return new Variant();
@@ -42,20 +53,27 @@ public partial class InventorySlot : Panel
 		}
 
 		var origin = (InventorySlot)slotItem.GetParent();
+		
+		//Check if we should switch with previous slot
 		if (Content != null)
-			origin.ForceUpdateContent(Content);
+			origin.SetContent(Content);
 		else
 			origin.EmitSignal(SignalName.BecameEmpty);
 		
-		ForceUpdateContent(slotItem);
+		SetContent(slotItem);
 	}
 
 	public override void _Notification(int what)
 	{
-		if (what == NotificationDragEnd) UpdateContent();
+		//Only care about rechecking after finished
+		if (what == NotificationDragEnd) CheckAndUpdateContent();
 	}
 
-	public void ForceUpdateContent(InventorySlotItem slotItem)
+	/// <summary>
+	/// Set the content. Doesn't do anything to the origin.
+	/// </summary>
+	/// <param name="slotItem"></param>
+	public void SetContent(InventorySlotItem slotItem)
 	{
 		slotItem.Reparent(this);
 		EmitSignal(SignalName.BecamePopulated, slotItem);
@@ -64,9 +82,10 @@ public partial class InventorySlot : Panel
 	}
 	
 	/// <summary>
-	/// Update 'content' to be 1st valid child, complain if it's something 
+	/// Update <see cref="Content"/> to be 1st valid child, complain if it's something else and clear anything other
+	/// than the first item.
 	/// </summary>
-	private void UpdateContent()
+	private void CheckAndUpdateContent()
 	{
 		var children = GetChildren();
 		if (children.Count == 0)
