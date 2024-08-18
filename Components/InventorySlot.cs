@@ -1,11 +1,14 @@
 using Godot;
 
+[GlobalClass]
 public partial class InventorySlot : Panel
 {
 	[Signal] public delegate void BecameEmptyEventHandler();
 	[Signal] public delegate void BecamePopulatedEventHandler(Variant content);
 
-	private InventorySlotItem content;
+	[Export] private Color colorWhenMoving = new(Colors.White, 0.66f);
+
+	public InventorySlotItem Content { get; private set; }
 	
 	public override void _Ready()
 	{
@@ -14,23 +17,22 @@ public partial class InventorySlot : Panel
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
-		if (content == null) return new Variant();
-		content.Modulate = Colors.Red;
+		if (Content == null) return new Variant();
+		Content.Modulate = colorWhenMoving;
 		SetDragPreview(new TextureRect()
 		{
 			Size = new Vector2(45, 45),
 			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
-			Texture = content.GetNode<TextureRect>("TextureRect").Texture
+			Texture = Content.GetNode<TextureRect>("TextureRect").Texture
 		});
-		return content;
+		return Content;
 	}
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
-		GD.Print($"{Name} + {atPosition}");
 		if (atPosition < Vector2.Zero) return false;
 		
-		return content == null
+		return Content == null
 			   && data.AsGodotObject() is InventorySlotItem;
 	}
 
@@ -42,20 +44,16 @@ public partial class InventorySlot : Panel
 			return;
 		}
 
+		slotItem.GetParent().EmitSignal(SignalName.BecameEmpty);
 		slotItem.Reparent(this);
-		slotItem.Position = Vector2.Zero;
-		content = slotItem;
-
 		EmitSignal(SignalName.BecamePopulated, slotItem);
-		
+		slotItem.Position = Vector2.Zero;
+		Content = slotItem;
 	}
 
 	public override void _Notification(int what)
 	{
-		if (what == NotificationDragEnd)
-		{
-			CallDeferred(MethodName.UpdateContent);
-		}
+		if (what == NotificationDragEnd) UpdateContent();
 	}
 
 	/// <summary>
@@ -63,19 +61,18 @@ public partial class InventorySlot : Panel
 	/// </summary>
 	private void UpdateContent()
 	{
-		GD.Print($"Update content on {Name}: {content}");
-		
 		var children = GetChildren();
 		if (children.Count == 0)
 		{
-			content = null;
+			Content = null;
 			return;
 		}
 		
-		content = (InventorySlotItem)children[0];
-		content.Modulate = Colors.White;
+		Content = (InventorySlotItem)children[0];
 		
-		if (content == null)
+		Content.Modulate = Colors.White;
+		
+		if (Content == null)
 			GD.PrintErr($"Invalid child on {Name} - should be type of {nameof(InventorySlotItem)}.");
 
 		if (children.Count > 1)
@@ -83,7 +80,7 @@ public partial class InventorySlot : Panel
 			GD.PrintErr($"Invalid child count on {Name} - should be 1.");
 			foreach (var child in children)
 			{
-				if (child == content) continue;
+				if (child == Content) continue;
 				child.QueueFree();
 			}
 		}

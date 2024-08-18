@@ -6,7 +6,7 @@
 
 [node name="ToolbarExample" type="CanvasLayer"]
 
-[node name="InventoryContainer" parent="." instance=ExtResource("1_7auih")]
+[node name="InventoryContainer" parent="." node_paths=PackedStringArray("contentHolders") instance=ExtResource("1_7auih")]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_right = 0.0
@@ -15,6 +15,7 @@ offset_right = 500.0
 offset_bottom = -3.0
 grow_horizontal = 1
 grow_vertical = 0
+contentHolders = [NodePath("HBoxContainer")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="InventoryContainer"]
 layout_mode = 0
@@ -59,7 +60,7 @@ layout_mode = 2
 [node name="Slot10" parent="InventoryContainer/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="InventoryContainer2" parent="." instance=ExtResource("1_7auih")]
+[node name="InventoryContainer2" parent="." node_paths=PackedStringArray("contentHolders") instance=ExtResource("1_7auih")]
 custom_minimum_size = Vector2(400, 400)
 anchors_preset = 8
 anchor_left = 0.5
@@ -70,6 +71,7 @@ offset_left = -200.0
 offset_top = -200.0
 offset_right = 200.0
 offset_bottom = 200.0
+contentHolders = [NodePath("GridContainer")]
 
 [node name="Panel" type="Panel" parent="InventoryContainer2"]
 layout_mode = 1
