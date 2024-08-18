@@ -12,7 +12,7 @@ public partial class InventoryContainer : Control
 	[Export] private Node[] contentHolders;
 
 	private GodotArray contents = new();
-	private InventorySlot activeSlot = new();
+	private InventorySlotItem activeSlotItem = new();
 
 	public override void _Ready()
 	{
@@ -44,17 +44,17 @@ public partial class InventoryContainer : Control
 
 	private void OnMouseExited(int index)
 	{
-		if (activeSlot == contents[index].As<InventorySlot>())
+		if (activeSlotItem == contents[index].As<InventorySlotItem>())
 		{
-			activeSlot = null;
-			EmitSignal(SignalName.MouseoverItemChanged, activeSlot);
+			activeSlotItem = null;
+			EmitSignal(SignalName.MouseoverItemChanged, activeSlotItem);
 		}
 	}
 
 	private void OnMouseEntered(int index)
 	{
-		activeSlot = contents[index].As<InventorySlot>();
-		EmitSignal(SignalName.MouseoverItemChanged, activeSlot);
+		activeSlotItem = contents[index].As<InventorySlotItem>();
+		EmitSignal(SignalName.MouseoverItemChanged, activeSlotItem);
 	}
 	
 	/// <summary>

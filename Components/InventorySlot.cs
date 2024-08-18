@@ -30,10 +30,7 @@ public partial class InventorySlot : Panel
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
-		if (atPosition < Vector2.Zero) return false;
-		
-		return Content == null
-			   && data.AsGodotObject() is InventorySlotItem;
+		return data.AsGodotObject() is InventorySlotItem;
 	}
 
 	public override void _DropData(Vector2 atPosition, Variant data)
@@ -44,11 +41,13 @@ public partial class InventorySlot : Panel
 			return;
 		}
 
-		slotItem.GetParent().EmitSignal(SignalName.BecameEmpty);
-		slotItem.Reparent(this);
-		EmitSignal(SignalName.BecamePopulated, slotItem);
-		slotItem.Position = Vector2.Zero;
-		Content = slotItem;
+		var origin = (InventorySlot)slotItem.GetParent();
+		if (Content != null)
+			origin.ForceUpdateContent(Content);
+		else
+			origin.EmitSignal(SignalName.BecameEmpty);
+		
+		ForceUpdateContent(slotItem);
 	}
 
 	public override void _Notification(int what)
@@ -56,6 +55,14 @@ public partial class InventorySlot : Panel
 		if (what == NotificationDragEnd) UpdateContent();
 	}
 
+	public void ForceUpdateContent(InventorySlotItem slotItem)
+	{
+		slotItem.Reparent(this);
+		EmitSignal(SignalName.BecamePopulated, slotItem);
+		slotItem.Position = Vector2.Zero;
+		Content = slotItem;
+	}
+	
 	/// <summary>
 	/// Update 'content' to be 1st valid child, complain if it's something 
 	/// </summary>
