@@ -6,7 +6,6 @@ public partial class InventorySlot : Panel
 	[Signal] public delegate void BecamePopulatedEventHandler(Variant content);
 
 	private InventorySlotItem content;
-	private bool myItemIsBeingDragged = false;
 	
 	public override void _Ready()
 	{
@@ -23,7 +22,6 @@ public partial class InventorySlot : Panel
 			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
 			Texture = content.GetNode<TextureRect>("TextureRect").Texture
 		});
-		myItemIsBeingDragged = true;
 		return content;
 	}
 
@@ -57,7 +55,6 @@ public partial class InventorySlot : Panel
 		if (what == NotificationDragEnd)
 		{
 			CallDeferred(MethodName.UpdateContent);
-			myItemIsBeingDragged = false;
 		}
 	}
 
