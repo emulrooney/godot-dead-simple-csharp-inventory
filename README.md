@@ -16,4 +16,7 @@ The slots will emit signals when they're populated or emptied out.
 * Items that have different quantities while remaining in one tile
 * Interacting with items in any way (ie double click to use, right click for more actions... etc)
 * Removing things from your inventory (trash can icon like [Stardew Valley](https://www.google.com/search?client=firefox-b-d&sca_esv=41b22d2abb3efe70&sca_upv=1&q=stardew+valley+inventory&udm=2&fbs=AEQNm0DPvcmG_nCbmwtBO9j6YBzM68ZanC7g01Skprhw5JoufVCiMv-hxC44jt6JduRQysBab-bgQXjPraaWFXMvOy8Kr1OAG3K-aj3De4zf3-LxKtkBtWaSCp743evHzhY6J0rIQUCXki65vOxhV0cGJtj0S1dF8YREnKrWtJctBkTv8-bs83YpB7p3IMTdYvjisDEty1xSxeLS4B_TKFXUiCrenmEMcA&sa=X&ved=2ahUKEwjP6o2u2v-HAxWypIkEHZGKIBYQtKgLegQIExAB&biw=1203&bih=698&dpr=1.88)? click outside the window to drop?)
+
+## Bugs & sloppy design
 * Right now the item *has* to have a TextureRect... this sucks, it should be more generic.
+* Mouseover/mouseout signals should pause when you're dragging, so that content from the actively dragged item stays visible (instead of literally only tracking exactly where your mouse pointer is)
