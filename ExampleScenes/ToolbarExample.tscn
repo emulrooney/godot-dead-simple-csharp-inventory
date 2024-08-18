@@ -36,6 +36,11 @@ layout_mode = 2
 [node name="Slot4" parent="InventoryContainer/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
+[node name="Item2" parent="InventoryContainer/HBoxContainer/Slot4" instance=ExtResource("3_afnne")]
+layout_mode = 1
+offset_left = -1.0
+offset_right = -1.0
+
 [node name="Slot5" parent="InventoryContainer/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
@@ -85,6 +90,7 @@ offset_right = -95.0
 offset_bottom = -95.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 columns = 6
 
 [node name="Slot11" parent="InventoryContainer2/GridContainer" instance=ExtResource("2_fiyjv")]
@@ -99,11 +105,17 @@ layout_mode = 2
 [node name="Slot14" parent="InventoryContainer2/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
+[node name="Item3" parent="InventoryContainer2/GridContainer/Slot14" instance=ExtResource("3_afnne")]
+layout_mode = 1
+
 [node name="Slot15" parent="InventoryContainer2/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
 [node name="Slot16" parent="InventoryContainer2/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
+
+[node name="Item4" parent="InventoryContainer2/GridContainer/Slot16" instance=ExtResource("3_afnne")]
+layout_mode = 1
 
 [node name="Slot17" parent="InventoryContainer2/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2

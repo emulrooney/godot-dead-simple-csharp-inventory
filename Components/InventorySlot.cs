@@ -15,17 +15,25 @@ public partial class InventorySlot : Panel
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
-		if (!InBounds(atPosition) || content == null) return new Variant();
-
+		if (content == null) return new Variant();
+		content.Modulate = Colors.Red;
+		SetDragPreview(new TextureRect()
+		{
+			Size = new Vector2(45, 45),
+			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
+			Texture = content.GetNode<TextureRect>("TextureRect").Texture
+		});
 		myItemIsBeingDragged = true;
-		content.StartDrag();
 		return content;
 	}
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
-		return data.AsGodotObject() is InventorySlotItem 
-			   && InBounds(atPosition);
+		GD.Print($"{Name} + {atPosition}");
+		if (atPosition < Vector2.Zero) return false;
+		
+		return content == null
+			   && data.AsGodotObject() is InventorySlotItem;
 	}
 
 	public override void _DropData(Vector2 atPosition, Variant data)
@@ -37,21 +45,20 @@ public partial class InventorySlot : Panel
 		}
 
 		slotItem.Reparent(this);
+		slotItem.Position = Vector2.Zero;
 		content = slotItem;
+
+		EmitSignal(SignalName.BecamePopulated, slotItem);
+		
 	}
 
 	public override void _Notification(int what)
 	{
-		if (what != NotificationDragEnd) return;
-		if (content == null) return;
-		
-		content.ReleaseDrag();
-		if (myItemIsBeingDragged)
+		if (what == NotificationDragEnd)
 		{
 			CallDeferred(MethodName.UpdateContent);
+			myItemIsBeingDragged = false;
 		}
-		
-		myItemIsBeingDragged = false;
 	}
 
 	/// <summary>
@@ -59,10 +66,16 @@ public partial class InventorySlot : Panel
 	/// </summary>
 	private void UpdateContent()
 	{
-		var children = GetChildren();
-		if (children.Count == 0) return;
+		GD.Print($"Update content on {Name}: {content}");
 		
-		content = children[0] as InventorySlotItem;
+		var children = GetChildren();
+		if (children.Count == 0)
+		{
+			content = null;
+			return;
+		}
+		
+		content = (InventorySlotItem)children[0];
 		content.Modulate = Colors.White;
 		
 		if (content == null)
@@ -77,10 +90,5 @@ public partial class InventorySlot : Panel
 				child.QueueFree();
 			}
 		}
-	}
-
-	private bool InBounds(Vector2 pos)
-	{
-		return pos >= Vector2.Zero && pos <= Size;
 	}
 }
