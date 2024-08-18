@@ -29,13 +29,11 @@ public partial class InventoryContainer : Control
 			slot.BecameEmpty += () =>
 			{
 				contents[count] = new Variant();
-				GD.Print("Emptied: " + count);
 				EmitSignal(SignalName.ContentsChanged, contents);
 			};
 			slot.BecamePopulated += (content) =>
 			{
 				contents[count] = content;
-				GD.Print("Filled: " + count);
 				EmitSignal(SignalName.ContentsChanged, contents);
 			};
 			itemCount++; 
