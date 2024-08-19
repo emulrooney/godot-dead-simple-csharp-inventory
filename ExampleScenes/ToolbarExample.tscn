@@ -1,11 +1,53 @@
-[gd_scene load_steps=7 format=3 uid="uid://lp3p2vh7ohvg"]
+[gd_scene load_steps=14 format=3 uid="uid://lp3p2vh7ohvg"]
 
 [ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://BaseComponents/InventoryContainer.tscn" id="1_7auih"]
 [ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://BaseComponents/InventorySlot.tscn" id="2_fiyjv"]
 [ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://ExtendedComponents/InventorySlotItem.tscn" id="3_afnne"]
+[ext_resource type="Texture2D" uid="uid://cpfq24tcdlejn" path="res://ExampleScenes/Assets/Cheese.png" id="4_cwxwo"]
 [ext_resource type="Script" path="res://BaseComponents/InventorySlotItem.cs" id="4_n37dy"]
 [ext_resource type="Script" path="res://ExampleScenes/DumbLabelScript.cs" id="4_udvbo"]
-[ext_resource type="Texture2D" uid="uid://4ehgj2f5kxkk" path="res://icon2.PNG" id="5_w1uoj"]
+[ext_resource type="PackedScene" uid="uid://7se1yumi5eg8" path="res://ExampleScenes/MagicCheesePreview.tscn" id="5_m2frm"]
+[ext_resource type="Texture2D" uid="uid://bc3m4w31ot4gq" path="res://ExampleScenes/Assets/Cookie.png" id="5_pi1rn"]
+[ext_resource type="Texture2D" uid="uid://c5rf1hyl7tic2" path="res://ExampleScenes/Assets/Hooch.png" id="6_bhih6"]
+[ext_resource type="Texture2D" uid="uid://ofdlmcd2orul" path="res://ExampleScenes/Assets/Pretzel.png" id="7_2cj47"]
+
+[sub_resource type="Animation" id="Animation_ft7h5"]
+resource_name = "MagicCheese"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_d2whf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ce4nm"]
+_data = {
+"MagicCheese": SubResource("Animation_ft7h5"),
+"RESET": SubResource("Animation_d2whf")
+}
 
 [node name="ToolbarExample" type="CanvasLayer"]
 
@@ -26,14 +68,26 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Slot" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
+[node name="Slot1" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="Item" parent="Hotbar/HBoxContainer/Slot" instance=ExtResource("3_afnne")]
+[node name="MagicCheese" parent="Hotbar/HBoxContainer/Slot1" instance=ExtResource("3_afnne")]
 layout_mode = 1
+texture = ExtResource("4_cwxwo")
+PreviewItem = ExtResource("5_m2frm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotbar/HBoxContainer/Slot1/MagicCheese"]
+libraries = {
+"": SubResource("AnimationLibrary_ce4nm")
+}
+autoplay = "MagicCheese"
 
 [node name="Slot2" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
+
+[node name="Cheese" parent="Hotbar/HBoxContainer/Slot2" instance=ExtResource("3_afnne")]
+layout_mode = 1
+texture = ExtResource("4_cwxwo")
 
 [node name="Slot3" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
@@ -41,10 +95,11 @@ layout_mode = 2
 [node name="Slot4" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="Item2" parent="Hotbar/HBoxContainer/Slot4" instance=ExtResource("3_afnne")]
+[node name="Cookie" parent="Hotbar/HBoxContainer/Slot4" instance=ExtResource("3_afnne")]
 layout_mode = 1
 offset_left = -1.0
 offset_right = -1.0
+texture = ExtResource("5_pi1rn")
 
 [node name="Slot5" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
@@ -103,6 +158,52 @@ grow_vertical = 2
 mouse_filter = 0
 columns = 6
 
+[node name="Slot1" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Alcohol" parent="Inventory/GridContainer/Slot1" instance=ExtResource("3_afnne")]
+layout_mode = 1
+texture = ExtResource("6_bhih6")
+
+[node name="Slot2" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Pretzel" type="TextureRect" parent="Inventory/GridContainer/Slot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_2cj47")
+expand_mode = 2
+script = ExtResource("4_n37dy")
+
+[node name="Slot3" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot4" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot5" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot6" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot7" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot8" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot9" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
+[node name="Slot10" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
+layout_mode = 2
+
 [node name="Slot11" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
@@ -115,35 +216,11 @@ layout_mode = 2
 [node name="Slot14" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="Item3" parent="Inventory/GridContainer/Slot14" instance=ExtResource("3_afnne")]
-layout_mode = 1
-
 [node name="Slot15" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
 [node name="Slot16" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
-
-[node name="Item4" type="Control" parent="Inventory/GridContainer/Slot16"]
-self_modulate = Color(0.706853, 0, 0.386515, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("4_n37dy")
-
-[node name="TextureRect" type="TextureRect" parent="Inventory/GridContainer/Slot16/Item4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_w1uoj")
-expand_mode = 4
 
 [node name="Slot17" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
@@ -203,36 +280,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Slot36" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot37" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot38" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot39" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot40" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot41" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot42" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot43" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot44" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot45" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
-layout_mode = 2
-
-[node name="Slot46" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="."]

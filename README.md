@@ -20,3 +20,7 @@ The slots will emit signals when they're populated or emptied out.
 ## Bugs & sloppy design
 * Right now the item *has* to have a TextureRect... this sucks, it should be more generic.
 * Mouseover/mouseout signals should pause when you're dragging, so that content from the actively dragged item stays visible (instead of literally only tracking exactly where your mouse pointer is)
+
+## Credits
+
+* Food icons: https://henrysoftware.itch.io/pixel-food

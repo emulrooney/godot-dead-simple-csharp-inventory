@@ -25,20 +25,17 @@ public partial class InventorySlot : Panel
 	{
 		CheckAndUpdateContent();
 	}
-	
+
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
 		if (Content == null) return new Variant();
 		Content.Modulate = colorWhenMoving;
-		SetDragPreview(new TextureRect()
-		{
-			Size = new Vector2(45, 45),
-			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
-			Texture = Content.GetNode<TextureRect>("TextureRect").Texture
-		});
+
+		SetDragPreview(GetDragPreviewItem(Content));
+
 		return Content;
 	}
-
+	
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
 		return data.AsGodotObject() is InventorySlotItem;
@@ -79,6 +76,28 @@ public partial class InventorySlot : Panel
 		EmitSignal(SignalName.BecamePopulated, slotItem);
 		slotItem.Position = Vector2.Zero;
 		Content = slotItem;
+	}
+	
+	/// <summary>
+	/// If set, gets <see cref="InventorySlotItem.PreviewItem"/>. Otherwise, generates a simple copy of the item's
+	/// texture.
+	/// </summary>
+	/// <param name="slotItem"></param>
+	/// <returns></returns>
+	private Control GetDragPreviewItem(InventorySlotItem slotItem)
+	{
+		if (slotItem.PreviewItem != null && slotItem.PreviewItem.Instantiate() is Control ci)
+		{
+			return ci;
+		}
+		
+		//None set: fall back
+		return new TextureRect
+		{
+			Size = this.Size,
+			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
+			Texture = Content.Texture
+		};
 	}
 	
 	/// <summary>
