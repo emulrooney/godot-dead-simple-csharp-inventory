@@ -39,19 +39,20 @@ public partial class InventoryContainer : Control
 		foreach (var slot in CollectSlots())
 		{
 			contents.Add(slot.Content ?? new Variant());
-			var count = itemCount; //Copy to local scope.
+			var index = itemCount; //Copy to local scope.
 
-			slot.MouseEntered += () => { OnMouseEntered(count); };
-			slot.MouseExited += () => { OnMouseExited(count); };
+			slot.MouseEntered += () => { OnMouseEntered(index); };
+			slot.MouseExited += () => { OnMouseExited(index); };
 
 			slot.BecameEmpty += () =>
 			{
-				contents[count] = new Variant();
+				contents[index] = new Variant();
 				EmitSignal(SignalName.ContentsChanged, contents);
+				OnMouseExited(index); 
 			};
 			slot.BecamePopulated += (content) =>
 			{
-				contents[count] = content;
+				contents[index] = content;
 				EmitSignal(SignalName.ContentsChanged, contents);
 			};
 			itemCount++; 
@@ -60,6 +61,8 @@ public partial class InventoryContainer : Control
 
 	private void OnMouseExited(int index)
 	{
+		if (GetViewport().GuiGetDragData().VariantType != Variant.Type.Nil) return;
+		
 		if (activeSlotItem == contents[index].As<InventorySlotItem>())
 		{
 			activeSlotItem = null;
@@ -69,6 +72,8 @@ public partial class InventoryContainer : Control
 
 	private void OnMouseEntered(int index)
 	{
+		if (GetViewport().GuiGetDragData().VariantType != Variant.Type.Nil) return;
+		
 		activeSlotItem = contents[index].As<InventorySlotItem>();
 		EmitSignal(SignalName.MouseoverItemChanged, activeSlotItem);
 	}

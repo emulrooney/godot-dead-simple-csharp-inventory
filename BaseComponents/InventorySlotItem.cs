@@ -9,6 +9,8 @@ using Godot;
 /// </summary>
 public partial class InventorySlotItem : TextureRect
 {
+	[Export] public string DisplayName { get; private set; } = "An unnamed item";
+
 	/// <summary>
 	/// Item to generate when previewing; if empty, a simple copy of the <see cref="Texture"/> is used. This must be
 	/// a node inheriting <see cref="Control"/>.

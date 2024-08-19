@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://BaseComponents/InventoryContainer.tscn" id="1_7auih"]
 [ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://BaseComponents/InventorySlot.tscn" id="2_fiyjv"]
-[ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://ExtendedComponents/InventorySlotItem.tscn" id="3_afnne"]
+[ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://BaseComponents/InventorySlotItem.tscn" id="3_afnne"]
 [ext_resource type="Texture2D" uid="uid://cpfq24tcdlejn" path="res://ExampleScenes/Assets/Cheese.png" id="4_cwxwo"]
 [ext_resource type="Script" path="res://BaseComponents/InventorySlotItem.cs" id="4_n37dy"]
 [ext_resource type="Script" path="res://ExampleScenes/DumbLabelScript.cs" id="4_udvbo"]
