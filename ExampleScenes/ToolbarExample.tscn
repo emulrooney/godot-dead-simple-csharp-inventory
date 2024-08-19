@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://lp3p2vh7ohvg"]
 
-[ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://Components/InventoryContainer.tscn" id="1_7auih"]
-[ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://Components/InventorySlot.tscn" id="2_fiyjv"]
-[ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://Components/InventorySlotItem.tscn" id="3_afnne"]
-[ext_resource type="Script" path="res://Components/InventorySlotItem.cs" id="4_n37dy"]
+[ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://BaseComponents/InventoryContainer.tscn" id="1_7auih"]
+[ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://BaseComponents/InventorySlot.tscn" id="2_fiyjv"]
+[ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://ExtendedComponents/InventorySlotItem.tscn" id="3_afnne"]
+[ext_resource type="Script" path="res://BaseComponents/InventorySlotItem.cs" id="4_n37dy"]
 [ext_resource type="Script" path="res://ExampleScenes/DumbLabelScript.cs" id="4_udvbo"]
 [ext_resource type="Texture2D" uid="uid://4ehgj2f5kxkk" path="res://icon2.PNG" id="5_w1uoj"]
 
