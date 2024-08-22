@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ofdlmcd2orul"
-path="res://.godot/imported/Pretzel.png-21f4304ad48e8779d00975b3aca88808.ctex"
+uid="uid://bc3m4w31ot4gq"
+path="res://.godot/imported/Cookie.png-634f74d2d32bf2ad23b89f209e475511.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ExampleScenes/Assets/Pretzel.png"
-dest_files=["res://.godot/imported/Pretzel.png-21f4304ad48e8779d00975b3aca88808.ctex"]
+source_file="res://addons/emuInventory/ExampleScenes/Assets/Cookie.png"
+dest_files=["res://.godot/imported/Cookie.png-634f74d2d32bf2ad23b89f209e475511.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db1tttjhr1a7b"]
 
-[ext_resource type="Script" path="res://BaseComponents/InventorySlot.cs" id="1_i2nau"]
+[ext_resource type="Script" path="res://addons/emuInventory/BaseComponents/InventorySlot.cs" id="1_i2nau"]
 
 [node name="Slot" type="Panel"]
 custom_minimum_size = Vector2(45, 45)

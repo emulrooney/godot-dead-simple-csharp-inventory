@@ -5,8 +5,8 @@ using Godot;
 /// </summary>
 public partial class DetailedInventorySlotItem : InventorySlotItem
 {
-    /// <summary>
-    /// Extra text to show.
-    /// </summary>
-    [Export(PropertyHint.MultilineText)] public string Description { get; private set; }
+	/// <summary>
+	/// Extra text to show.
+	/// </summary>
+	[Export(PropertyHint.MultilineText)] public string Description { get; private set; }
 }

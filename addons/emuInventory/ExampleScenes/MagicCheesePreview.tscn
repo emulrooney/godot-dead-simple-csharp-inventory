@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://7se1yumi5eg8"]
 
-[ext_resource type="Texture2D" uid="uid://cpfq24tcdlejn" path="res://ExampleScenes/Assets/Cheese.png" id="1_6p5ye"]
+[ext_resource type="Texture2D" uid="uid://cpfq24tcdlejn" path="res://addons/emuInventory/ExampleScenes/Assets/Cheese.png" id="1_6p5ye"]
 
 [sub_resource type="Animation" id="Animation_62kfg"]
 resource_name = "CheeseAnimation"

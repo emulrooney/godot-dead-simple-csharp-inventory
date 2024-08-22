@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5rf1hyl7tic2"
-path="res://.godot/imported/Hooch.png-fba01a514597fb4f1becb6c74b93635f.ctex"
+uid="uid://bx6lq46snljya"
+path="res://.godot/imported/icon.svg-4cbdf83d18bb1617575d8a90d2ed83ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ExampleScenes/Assets/Hooch.png"
-dest_files=["res://.godot/imported/Hooch.png-fba01a514597fb4f1becb6c74b93635f.ctex"]
+source_file="res://addons/emuInventory/BaseComponents/icon.svg"
+dest_files=["res://.godot/imported/icon.svg-4cbdf83d18bb1617575d8a90d2ed83ec.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

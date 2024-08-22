@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc3m4w31ot4gq"
-path="res://.godot/imported/Cookie.png-5a3939436a83ec6e298cb76437284881.ctex"
+uid="uid://cpfq24tcdlejn"
+path="res://.godot/imported/Cheese.png-06a6a42f0abcc610faa437becdcbb55c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ExampleScenes/Assets/Cookie.png"
-dest_files=["res://.godot/imported/Cookie.png-5a3939436a83ec6e298cb76437284881.ctex"]
+source_file="res://addons/emuInventory/ExampleScenes/Assets/Cheese.png"
+dest_files=["res://.godot/imported/Cheese.png-06a6a42f0abcc610faa437becdcbb55c.ctex"]
 
 [params]
 
