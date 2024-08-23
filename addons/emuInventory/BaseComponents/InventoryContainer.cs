@@ -80,6 +80,11 @@ public partial class InventoryContainer : Control
 			contents[slotIndex] = content;
 			EmitSignal(SignalName.ContentsChanged, contents);
 		};
+
+		slot.BecameSelected += () =>
+		{
+			EmitSignal(SignalName.SelectedItemChanged, contents[slotIndex]);
+		};
 	}
 
 	private void OnMouseExited(int index)

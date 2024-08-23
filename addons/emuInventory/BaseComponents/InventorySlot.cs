@@ -10,6 +10,7 @@ public partial class InventorySlot : Panel
 {
 	[Signal] public delegate void BecameEmptyEventHandler();
 	[Signal] public delegate void BecamePopulatedEventHandler(Variant content);
+	[Signal] public delegate void BecameSelectedEventHandler();
 
 	/// <summary>
 	/// Modulate the preview image to this colour.
@@ -24,6 +25,14 @@ public partial class InventorySlot : Panel
 	public override void _Ready()
 	{
 		CheckAndUpdateContent();
+
+		GuiInput += (input) =>
+		{
+			if (input is InputEventMouseButton click && click.IsReleased())
+			{
+				EmitSignal(SignalName.BecameSelected);
+			} 
+		};
 	}
 
 	public override Variant _GetDragData(Vector2 atPosition)
