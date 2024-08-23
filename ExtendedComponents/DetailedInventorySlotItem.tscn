@@ -3,23 +3,15 @@
 [ext_resource type="Script" path="res://ExtendedComponents/DetailedInventorySlotItem.cs" id="1_eql0o"]
 [ext_resource type="Texture2D" uid="uid://bx6lq46snljya" path="res://addons/emuInventory/BaseComponents/icon.svg" id="2_ls1rg"]
 
-[node name="DetailedItem" type="Control"]
-layout_mode = 3
+[node name="DetailedItem" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_eql0o")
-Description = "This item should have a description!"
-
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 texture = ExtResource("2_ls1rg")
-expand_mode = 4
+expand_mode = 2
+script = ExtResource("1_eql0o")
+Description = "The icon of Godot has been everywhere."
+DisplayName = "Godot Icon"

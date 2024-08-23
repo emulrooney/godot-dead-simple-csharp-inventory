@@ -14,9 +14,18 @@ public partial class InventoryContainer : Control
 	/// <summary>
 	/// Item that user is mouseovering is updated; can emit null too.
 	/// </summary>
-	[Signal] public delegate void MouseoverItemChangedEventHandler(InventorySlot slot);
-	[Signal] public delegate void ContentsChangedEventHandler(GodotArray arr);
+	[Signal] public delegate void MouseoverItemChangedEventHandler(InventorySlotItem slot);
+
+	/// <summary>
+	/// Item that the user has selected is updated; can emit null too.
+	/// </summary>
+	[Signal] public delegate void SelectedItemChangedEventHandler(InventorySlotItem slot);
 	
+	/// <summary>
+	/// <see cref="InventoryContainer.contents"/> changed, meaning something moved around
+	/// </summary>
+	[Signal] public delegate void ContentsChangedEventHandler(GodotArray arr);
+ 
 	/// <summary>
 	/// A series of nodes that hold <see cref="InventorySlotItem"/>s
 	/// </summary>
@@ -28,9 +37,14 @@ public partial class InventoryContainer : Control
 	private GodotArray contents = new();
 	
 	/// <summary>
-	/// Item currently selected (or in this case, just mouseovered)
+	/// Item currently hovered over
 	/// </summary>
-	private InventorySlotItem activeSlotItem = new();
+	private InventorySlotItem hoveredSlotItem;
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	private InventorySlotItem selectedSlotItem;
 
 	public override void _Ready()
 	{
@@ -39,34 +53,43 @@ public partial class InventoryContainer : Control
 		foreach (var slot in CollectSlots())
 		{
 			contents.Add(slot.Content ?? new Variant());
-			var index = itemCount; //Copy to local scope.
-
-			slot.MouseEntered += () => { OnMouseEntered(index); };
-			slot.MouseExited += () => { OnMouseExited(index); };
-
-			slot.BecameEmpty += () =>
-			{
-				contents[index] = new Variant();
-				EmitSignal(SignalName.ContentsChanged, contents);
-				OnMouseExited(index); 
-			};
-			slot.BecamePopulated += (content) =>
-			{
-				contents[index] = content;
-				EmitSignal(SignalName.ContentsChanged, contents);
-			};
-			itemCount++; 
+			InitializeSlot(itemCount, slot);
+			itemCount++;
 		} 
+	}
+
+	/// <summary>
+	/// Setup a slot & signals
+	/// </summary>
+	/// <param name="slotIndex"></param>
+	/// <param name="slot"></param>
+	private void InitializeSlot(int slotIndex, InventorySlot slot)
+	{
+		slot.MouseEntered += () => { OnMouseEntered(slotIndex); };
+		slot.MouseExited += () => { OnMouseExited(slotIndex); };
+
+		slot.BecameEmpty += () =>
+		{
+			contents[slotIndex] = new Variant();
+			EmitSignal(SignalName.ContentsChanged, contents);
+			OnMouseExited(slotIndex); 
+		};
+		
+		slot.BecamePopulated += (content) =>
+		{
+			contents[slotIndex] = content;
+			EmitSignal(SignalName.ContentsChanged, contents);
+		};
 	}
 
 	private void OnMouseExited(int index)
 	{
 		if (GetViewport().GuiGetDragData().VariantType != Variant.Type.Nil) return;
 		
-		if (activeSlotItem == contents[index].As<InventorySlotItem>())
+		if (hoveredSlotItem == contents[index].As<InventorySlotItem>())
 		{
-			activeSlotItem = null;
-			EmitSignal(SignalName.MouseoverItemChanged, activeSlotItem);
+			hoveredSlotItem = null;
+			EmitSignal(SignalName.MouseoverItemChanged, hoveredSlotItem);
 		}
 	}
 
@@ -74,8 +97,8 @@ public partial class InventoryContainer : Control
 	{
 		if (GetViewport().GuiGetDragData().VariantType != Variant.Type.Nil) return;
 		
-		activeSlotItem = contents[index].As<InventorySlotItem>();
-		EmitSignal(SignalName.MouseoverItemChanged, activeSlotItem);
+		hoveredSlotItem = contents[index].As<InventorySlotItem>();
+		EmitSignal(SignalName.MouseoverItemChanged, hoveredSlotItem);
 	}
 	
 	/// <summary>

@@ -1,14 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://lp3p2vh7ohvg"]
+[gd_scene load_steps=15 format=3 uid="uid://lp3p2vh7ohvg"]
 
 [ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://addons/emuInventory/BaseComponents/InventoryContainer.tscn" id="1_7auih"]
 [ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://addons/emuInventory/BaseComponents/InventorySlot.tscn" id="2_fiyjv"]
 [ext_resource type="PackedScene" uid="uid://f2iypqbeudfb" path="res://addons/emuInventory/BaseComponents/InventorySlotItem.tscn" id="3_afnne"]
 [ext_resource type="Texture2D" uid="uid://cpfq24tcdlejn" path="res://addons/emuInventory/ExampleScenes/Assets/Cheese.png" id="4_cwxwo"]
 [ext_resource type="Script" path="res://addons/emuInventory/BaseComponents/InventorySlotItem.cs" id="4_n37dy"]
-[ext_resource type="Script" path="res://addons/emuInventory/ExampleScenes/DumbLabelScript.cs" id="4_udvbo"]
+[ext_resource type="Script" path="res://addons/emuInventory/ExampleScenes/ToolbarExampleTextScript.cs" id="4_udvbo"]
 [ext_resource type="PackedScene" uid="uid://7se1yumi5eg8" path="res://addons/emuInventory/ExampleScenes/MagicCheesePreview.tscn" id="5_m2frm"]
 [ext_resource type="Texture2D" uid="uid://bc3m4w31ot4gq" path="res://addons/emuInventory/ExampleScenes/Assets/Cookie.png" id="5_pi1rn"]
 [ext_resource type="Texture2D" uid="uid://c5rf1hyl7tic2" path="res://addons/emuInventory/ExampleScenes/Assets/Hooch.png" id="6_bhih6"]
+[ext_resource type="PackedScene" uid="uid://btue6sep7qb1j" path="res://ExtendedComponents/DetailedInventorySlotItem.tscn" id="6_tru72"]
 [ext_resource type="Texture2D" uid="uid://ofdlmcd2orul" path="res://addons/emuInventory/ExampleScenes/Assets/Pretzel.png" id="7_2cj47"]
 
 [sub_resource type="Animation" id="Animation_ft7h5"]
@@ -51,7 +52,7 @@ _data = {
 
 [node name="ToolbarExample" type="CanvasLayer"]
 
-[node name="Hotbar" parent="." instance=ExtResource("1_7auih")]
+[node name="Hotbar" parent="." node_paths=PackedStringArray("contentHolders") instance=ExtResource("1_7auih")]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_right = 0.0
@@ -61,6 +62,7 @@ offset_right = 662.0
 offset_bottom = -68.0
 grow_horizontal = 1
 grow_vertical = 0
+contentHolders = [NodePath("HBoxContainer")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Hotbar"]
 layout_mode = 0
@@ -91,6 +93,11 @@ texture = ExtResource("4_cwxwo")
 [node name="Slot3" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
+[node name="DetailedItem" parent="Hotbar/HBoxContainer/Slot3" instance=ExtResource("6_tru72")]
+layout_mode = 1
+Description = "An icon with lots of history."
+DisplayName = "The Icon of Godot"
+
 [node name="Slot4" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
@@ -118,17 +125,18 @@ layout_mode = 2
 [node name="Slot10" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="Inventory" parent="." instance=ExtResource("1_7auih")]
+[node name="Inventory" parent="." node_paths=PackedStringArray("contentHolders") instance=ExtResource("1_7auih")]
 custom_minimum_size = Vector2(400, 350)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -142.0
+offset_left = -248.0
 offset_top = -243.0
-offset_right = 258.0
+offset_right = 152.0
 offset_bottom = 107.0
+contentHolders = [NodePath("GridContainer")]
 
 [node name="Panel" type="Panel" parent="Inventory"]
 layout_mode = 1
@@ -281,17 +289,37 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="."]
-offset_left = 163.0
+offset_left = 151.0
 offset_top = 448.0
-offset_right = 272.0
+offset_right = 260.0
 offset_bottom = 471.0
-text = "DESCRIPTION:
+text = "Mouseover:
 "
 
-[node name="HotbarItemDescription" type="Label" parent="."]
-offset_left = 286.0
+[node name="MouseoverDescription" type="Label" parent="."]
+offset_left = 274.0
 offset_top = 447.0
-offset_right = 686.0
+offset_right = 674.0
 offset_bottom = 470.0
-text = "wheeee"
 script = ExtResource("4_udvbo")
+
+[node name="SelectionDescription" type="Label" parent="."]
+custom_minimum_size = Vector2(200, 300)
+offset_left = 458.0
+offset_top = 48.0
+offset_right = 658.0
+offset_bottom = 348.0
+script = ExtResource("4_udvbo")
+
+[node name="PanelContainer" type="PanelContainer" parent="SelectionDescription"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="MouseoverItemChanged" from="Hotbar" to="MouseoverDescription" method="SetMouseoverTextFromItem"]
+[connection signal="MouseoverItemChanged" from="Inventory" to="MouseoverDescription" method="SetMouseoverTextFromItem"]
+[connection signal="SelectedItemChanged" from="Inventory" to="SelectionDescription" method="SetSelectionTextFromItem"]
