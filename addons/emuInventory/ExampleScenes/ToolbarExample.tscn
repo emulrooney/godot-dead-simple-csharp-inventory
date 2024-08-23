@@ -93,11 +93,6 @@ texture = ExtResource("4_cwxwo")
 [node name="Slot3" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="DetailedItem" parent="Hotbar/HBoxContainer/Slot3" instance=ExtResource("6_tru72")]
-layout_mode = 1
-Description = "An icon with lots of history."
-DisplayName = "The Icon of Godot"
-
 [node name="Slot4" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
@@ -191,6 +186,11 @@ layout_mode = 2
 
 [node name="Slot4" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
+
+[node name="DetailedItem" parent="Inventory/GridContainer/Slot4" instance=ExtResource("6_tru72")]
+layout_mode = 1
+Description = "An icon with lots of history."
+DisplayName = "The Icon of Godot"
 
 [node name="Slot5" parent="Inventory/GridContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
@@ -309,6 +309,8 @@ offset_left = 458.0
 offset_top = 48.0
 offset_right = 658.0
 offset_bottom = 348.0
+autowrap_mode = 1
+text_overrun_behavior = 1
 script = ExtResource("4_udvbo")
 
 [node name="PanelContainer" type="PanelContainer" parent="SelectionDescription"]
