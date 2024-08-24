@@ -15,7 +15,7 @@ public partial class InventorySlot : Panel
 	/// <summary>
 	/// Modulate the preview image to this colour.
 	/// </summary>
-	[Export] private Color colorWhenMoving = new(Colors.White, 0.66f);
+	private Color previewModulateOnDrag = new(Colors.White, 0.66f);
 
 	/// <summary>
 	/// If null, slot is empty.
@@ -35,10 +35,20 @@ public partial class InventorySlot : Panel
 		};
 	}
 
+	/// <summary>
+	/// Configure properties
+	/// TODO If this gets too complicated, consider a 'InventoryContainerConfig' resource to kick around.
+	/// </summary>
+	/// <param name="previewModulateOnDrag"></param>
+	public void Configure(Color previewModulateOnDrag)
+	{
+		this.previewModulateOnDrag = previewModulateOnDrag;
+	}
+
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
 		if (Content == null) return new Variant();
-		Content.Modulate = colorWhenMoving;
+		Content.Modulate = previewModulateOnDrag;
 
 		SetDragPreview(GetDragPreviewItem(Content));
 
@@ -67,6 +77,7 @@ public partial class InventorySlot : Panel
 			origin.EmitSignal(SignalName.BecameEmpty);
 		
 		SetContent(slotItem);
+		EmitSignal(SignalName.BecameSelected);
 	}
 
 	public override void _Notification(int what)
@@ -105,7 +116,7 @@ public partial class InventorySlot : Panel
 		{
 			Size = this.Size,
 			ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
-			Texture = Content.Texture
+			Texture = Content.Texture,
 		};
 	}
 	

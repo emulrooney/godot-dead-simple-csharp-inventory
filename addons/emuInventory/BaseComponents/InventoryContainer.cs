@@ -36,6 +36,11 @@ public partial class InventoryContainer : Control
 	/// top of the item or slot.
 	/// </summary>
 	[Export] private Control selectedHighlight;
+	
+	/// <summary>
+	/// Modulate the preview image to be this colour when dragging
+	/// </summary>
+	[Export] private Color previewModulateOnDrag = new(Colors.White, 0.66f);
 
 	/// <summary>
 	/// Internal tracking of contents under each item in <see cref="contentHolders"/> 
@@ -60,6 +65,7 @@ public partial class InventoryContainer : Control
 		{
 			contents.Add(slot.Content ?? new Variant());
 			InitializeSlot(itemCount, slot);
+			slot.Configure(previewModulateOnDrag);
 			itemCount++;
 		} 
 	}

@@ -1,8 +1,10 @@
+using System;
 using Godot;
 
 /// <summary>
-/// this is a very stupid script to just update a label in the example and should be thrown into a dumpster
+/// This is a simple test script not intended for real use in production.
 /// </summary>
+[Obsolete]
 public partial class ToolbarExampleTextScript : Label
 {
 	public void SetMouseoverTextFromItem(InventorySlotItem slotItem)
