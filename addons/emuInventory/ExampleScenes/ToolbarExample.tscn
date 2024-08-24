@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://lp3p2vh7ohvg"]
+[gd_scene load_steps=17 format=3 uid="uid://lp3p2vh7ohvg"]
 
 [ext_resource type="PackedScene" uid="uid://dd38kuk4v7d3p" path="res://addons/emuInventory/BaseComponents/InventoryContainer.tscn" id="1_7auih"]
 [ext_resource type="PackedScene" uid="uid://db1tttjhr1a7b" path="res://addons/emuInventory/BaseComponents/InventorySlot.tscn" id="2_fiyjv"]
@@ -49,6 +49,15 @@ _data = {
 "MagicCheese": SubResource("Animation_ft7h5"),
 "RESET": SubResource("Animation_d2whf")
 }
+
+[sub_resource type="Gradient" id="Gradient_5ujpf"]
+colors = PackedColorArray(1, 1, 1, 0, 0.744922, 0.651288, 0.179804, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8xi2n"]
+gradient = SubResource("Gradient_5ujpf")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.88, 0.88)
 
 [node name="ToolbarExample" type="CanvasLayer"]
 
@@ -120,7 +129,7 @@ layout_mode = 2
 [node name="Slot10" parent="Hotbar/HBoxContainer" instance=ExtResource("2_fiyjv")]
 layout_mode = 2
 
-[node name="Inventory" parent="." node_paths=PackedStringArray("contentHolders") instance=ExtResource("1_7auih")]
+[node name="Inventory" parent="." node_paths=PackedStringArray("contentHolders", "selectedHighlight") instance=ExtResource("1_7auih")]
 custom_minimum_size = Vector2(400, 350)
 anchors_preset = 8
 anchor_left = 0.5
@@ -132,6 +141,7 @@ offset_top = -243.0
 offset_right = 152.0
 offset_bottom = 107.0
 contentHolders = [NodePath("GridContainer")]
+selectedHighlight = NodePath("Selected")
 
 [node name="Panel" type="Panel" parent="Inventory"]
 layout_mode = 1
@@ -144,6 +154,17 @@ offset_right = 4.59998
 offset_bottom = 84.4
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Selected" type="TextureRect" parent="Inventory"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_8xi2n")
+expand_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="Inventory"]
 layout_mode = 1

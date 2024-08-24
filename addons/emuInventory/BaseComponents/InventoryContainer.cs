@@ -32,6 +32,12 @@ public partial class InventoryContainer : Control
 	[Export] private Node[] contentHolders;
 
 	/// <summary>
+	/// Highlight node that's currently selected. This node should be the same size as a slot and be set up to appear over
+	/// top of the item or slot.
+	/// </summary>
+	[Export] private Control selectedHighlight;
+
+	/// <summary>
 	/// Internal tracking of contents under each item in <see cref="contentHolders"/> 
 	/// </summary>
 	private GodotArray contents = new();
@@ -42,7 +48,7 @@ public partial class InventoryContainer : Control
 	private InventorySlotItem hoveredSlotItem;
 	
 	/// <summary>
-	/// 
+	/// Currently selected item
 	/// </summary>
 	private InventorySlotItem selectedSlotItem;
 
@@ -84,6 +90,23 @@ public partial class InventoryContainer : Control
 		slot.BecameSelected += () =>
 		{
 			EmitSignal(SignalName.SelectedItemChanged, contents[slotIndex]);
+			if (contents[slotIndex].VariantType != Variant.Type.Nil)
+			{
+				selectedSlotItem = (InventorySlotItem)contents[slotIndex].AsGodotObject();
+				if (selectedHighlight != null)
+				{
+					selectedHighlight.GlobalPosition = selectedSlotItem.GlobalPosition;
+					selectedHighlight.Visible = true;
+				}
+
+				return;
+			}
+
+			selectedSlotItem = null;
+			if (selectedHighlight != null)
+			{
+				selectedHighlight.Visible = false;
+			} 
 		};
 	}
 
